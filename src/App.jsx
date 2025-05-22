@@ -159,7 +159,7 @@ export const App = () => {
         <div className="box table-container">
           {!visibleProducts.length ? (
             <p data-cy="NoMatchingMessage">
-              No products matching selected criteria!!!
+              No products matching selected criteria!
             </p>
           ) : (
             <table
