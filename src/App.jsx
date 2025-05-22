@@ -16,7 +16,7 @@ import './App.scss';
 export const App = () => (
   <div className="section">
     <div className="container">
-      <h1 className="title">Product Categories</h1>
+      <h1 className="title">Product Categories (test)</h1>
 
       <div className="block">
         <nav className="panel">
