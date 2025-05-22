@@ -23,19 +23,30 @@ const products = productsFromServer.map(product => {
   };
 });
 
-function getVisibleProducts(allProducts, selectedUser) {
+function getVisibleProducts(allProducts, selectedUser, query) {
+  let visibleProducts = [...allProducts];
+  const normalizedQuery = query.trim().toLowerCase();
+
   if (selectedUser) {
-    return [...allProducts].filter(
+    visibleProducts = visibleProducts.filter(
       product => product.user.name === selectedUser,
     );
   }
 
-  return allProducts;
+  if (query) {
+    // eslint-disable-next-line no-unused-vars
+    visibleProducts = visibleProducts.filter(product => {
+      return product.name.toLowerCase().includes(normalizedQuery);
+    });
+  }
+
+  return visibleProducts;
 }
 
 export const App = () => {
   const [selectedUser, setSelectedUser] = useState('');
-  const visibleProducts = getVisibleProducts(products, selectedUser);
+  const [query, setQuery] = useState('');
+  const visibleProducts = getVisibleProducts(products, selectedUser, query);
 
   return (
     <div className="section">
@@ -76,21 +87,27 @@ export const App = () => {
                   type="text"
                   className="input"
                   placeholder="Search"
-                  value="qwe"
+                  value={query}
+                  onChange={event => {
+                    setQuery(event.target.value);
+                  }}
                 />
 
                 <span className="icon is-left">
                   <i className="fas fa-search" aria-hidden="true" />
                 </span>
 
-                <span className="icon is-right">
-                  {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
-                  <button
-                    data-cy="ClearButton"
-                    type="button"
-                    className="delete"
-                  />
-                </span>
+                {query && (
+                  <span className="icon is-right">
+                    {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
+                    <button
+                      data-cy="ClearButton"
+                      type="button"
+                      className="delete"
+                      onClick={() => setQuery('')}
+                    />
+                  </span>
+                )}
               </p>
             </div>
 
